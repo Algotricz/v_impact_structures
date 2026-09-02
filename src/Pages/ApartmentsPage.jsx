@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import './ApartmentsPage.css';
+import '../styles/ApartmentsPage.css';
 
 const apartments = [
   { image: '/Assets/bueprint/1.webp', name: 'Residence 01', typology: 'Ground floor + basement', bedrooms: '3', details: '3 bed / 2 bath', size: '1,840 sq ft', area: 1840 },

@@ -1,4 +1,4 @@
-import './HighlightCard.css';
+import '../styles/HighlightCard.css';
 
 /**
  * @param {{ highlight: { title: string, description: string } | null }} props

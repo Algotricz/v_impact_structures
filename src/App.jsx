@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import './App.css';
+import './styles/App.css';
 import HighlightCard from './components/HighlightCard';
 import ApartmentsPage from './Pages/ApartmentsPage';
+import Works from './Pages/Works';
 
 const highlights = [
   { title: 'Crafted to endure', description: 'Timeless stone surfaces and flowering terraces give every exterior a lasting sense of character.' },
@@ -11,6 +12,7 @@ const highlights = [
 
 /** Full-bleed residence landing hero with a single-image parallax reveal. */
 function App() {
+  const [path, setPath] = useState(window.location.pathname);
   const [scrollState, setScrollState] = useState({
     sceneOffset: 0,
     contentOffset: 0,
@@ -23,11 +25,26 @@ function App() {
   });
   const [activeHighlight, setActiveHighlight] = useState(null);
 
+  const navigateTo = (event, nextPath) => {
+    event.preventDefault();
+    window.history.pushState({}, '', nextPath);
+    window.scrollTo(0, 0);
+    setPath(nextPath);
+  };
+
   useEffect(() => {
+    const updatePath = () => setPath(window.location.pathname);
+    window.addEventListener('popstate', updatePath);
+    return () => window.removeEventListener('popstate', updatePath);
+  }, []);
+
+  useEffect(() => {
+    if (path !== '/') return undefined;
+
     const updateScene = () => {
       const travel = Math.max(window.innerHeight * 2.3, 1);
       const progress = Math.min(Math.max(window.scrollY / travel, 0), 1);
-      const transitionProgress = Math.min(Math.max((progress - 0.89) / 0.11, 0), 1);
+      const transitionProgress = Math.min(Math.max((progress - 0.64) / 0.36, 0), 1);
       setScrollState({
         sceneOffset: Math.round(-progress * window.innerHeight * 0.72),
         contentOffset: Math.round(-progress * window.innerHeight * 0.28),
@@ -47,9 +64,10 @@ function App() {
       window.removeEventListener('scroll', updateScene);
       window.removeEventListener('resize', updateScene);
     };
-  }, []);
+  }, [path]);
 
-  if (window.location.pathname === '/apartments') return <ApartmentsPage />;
+  if (path === '/apartments') return <ApartmentsPage />;
+  if (path === '/wrks' || path === '/works') return <Works />;
 
   return (
     <main className="residence-page" style={{
@@ -64,16 +82,33 @@ function App() {
           <div className="hero__sky" />
           <header className="hero__header">
             <nav className="hero__nav" aria-label="Primary navigation">
-              <a className="hero__apartment" href="/apartments">Select<br />an apartment</a>
+              <a className="hero__apartment" href="/wrks" onClick={(event) => navigateTo(event, '/wrks')}>WRKS</a>
               <a href="#top">Book a call</a>
               <a href="#top">Contact</a>
             </nav>
           </header>
+          <aside className="hero__brief" aria-label="Residence overview">
+            <p>V Impact Structures / Coastal residences</p>
+            <h2>Private homes shaped by light, stone and generous outdoor living.</h2>
+            <dl>
+              <div><dt>Residences</dt><dd>03</dd></div>
+              <div><dt>Typologies</dt><dd>Garden to penthouse</dd></div>
+            </dl>
+          </aside>
+          <aside className="hero__booking-note" aria-label="Booking information">
+            <span>Now scheduling private walkthroughs</span>
+            <p>Floor plans, availability and consultation times are open for the first collection.</p>
+          </aside>
           <div className="hero__content" id="top">
             <h1 className="hero__title"><span>V</span><span>Impact</span></h1>
             <p className="hero__script">Structures</p>
             <div className="hero__tagline" aria-label="A place to return to"><span>A place</span><span>to return to</span></div>
             <p className="hero__switch"><span>By day</span><i /><span>By night</span></p>
+          </div>
+          <div className="hero__fact-strip" aria-label="Property facts">
+            <p><span>Landscape</span><b>Pool courtyard and planted terraces</b></p>
+            <p><span>Materiality</span><b>White volumes, stone walls and shaded glass</b></p>
+            <p><span>Plan</span><b>Private rooms, open living</b></p>
           </div>
           {!scrollState.arcIsOpen && <>
             <div className={`hero__markers${scrollState.showMarkers ? ' is-visible' : ''}`} aria-label="Property highlights">
@@ -100,6 +135,15 @@ function App() {
             <i className="arc-content__line" />
             <p>V Impact Structures<br />designed for generations</p>
             <h2>Built<br />to last</h2>
+            <div className="arc-content__details">
+              <p>Architecture that frames the coast, filters the light and gives every home a generous outdoor edge.</p>
+              <dl>
+                <div><dt>Homes</dt><dd>03</dd></div>
+                <div><dt>Setting</dt><dd>Kanyakumari</dd></div>
+                <div><dt>Focus</dt><dd>Light, privacy, craft</dd></div>
+              </dl>
+              <a href="/apartments">Select an apartment</a>
+            </div>
           </div>
           <p className="hero__scroll"><span>Scroll</span><i /></p>
         </div>
