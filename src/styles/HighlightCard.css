@@ -1,0 +1,18 @@
+.highlight-card {
+  position: absolute;
+  z-index: 4;
+  left: 28vw;
+  top: 46%;
+  width: clamp(330px, 52vh, 510px);
+  height: clamp(300px, 45vh, 440px);
+  padding: 38px 38px 36px;
+  border: 1px solid #d7d6cf;
+  border-radius: 7px;
+  background: #f7f6ef;
+  color: #172440;
+}
+.highlight-card::before { content: ''; position: absolute; inset: 12px; border: 1px solid #deddd7; clip-path: polygon(5% 0, 95% 0, 100% 5%, 100% 95%, 95% 100%, 5% 100%, 0 95%, 0 5%); pointer-events: none; }
+.highlight-card__label { display: none; }
+.highlight-card h2 { position: relative; z-index: 1; margin: 0; font: 400 clamp(32px, 2.2vw, 42px)/.94 'ambroise-francois-std', Georgia, serif; text-transform: uppercase; }
+.highlight-card p:last-child { position: absolute; z-index: 1; right: 38px; bottom: 40px; left: 38px; margin: 0; font: 400 14px/1.4 Arial, sans-serif; }
+@media (max-width: 700px) { .highlight-card { top: auto; bottom: 20px; left: 20px; width: calc(100vw - 40px); height: clamp(285px, 48vh, 360px); padding: 25px; }.highlight-card h2 { font-size: 32px; }.highlight-card p:last-child { right: 25px; bottom: 25px; left: 25px; } }
