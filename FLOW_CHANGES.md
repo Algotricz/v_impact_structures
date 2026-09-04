@@ -10,3 +10,6 @@
 - 2026-09-03: Added a 3D residence carousel as the next horizontal panel after the coastal location map.
 - 2026-09-03: Added a vertical apartments hero after the 3D carousel so the page resumes normal downward scrolling after the horizontal sequence.
 - 2026-09-04: Added a final closing arc section after the apartments hero as the homepage end scene.
+- 2026-09-04: Changed the final arc into a scroll-driven overlay that rises from the apartments hero image.
+- 2026-09-04: Added a residence details section after the final arc reveal.
+- 2026-09-04: Overlapped the residence details section with the final arc handoff for a smoother upward scroll transition.

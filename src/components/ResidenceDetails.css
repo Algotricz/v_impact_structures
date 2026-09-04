@@ -1,0 +1,189 @@
+.residence-details {
+  position: relative;
+  z-index: 72;
+  min-height: 160svh;
+  overflow: visible;
+  margin-top: -92svh;
+  background: var(--era-white);
+  color: #112947;
+  padding: clamp(24px, 4vh, 56px) clamp(24px, 5vw, 96px) clamp(80px, 12vh, 140px);
+}
+
+.residence-details__media--left {
+  position: absolute;
+  top: clamp(-24px, 0vh, 40px);
+  left: 0;
+  width: min(40vw, 760px);
+  height: clamp(480px, 62vh, 620px);
+  background: #3f0626;
+}
+
+.residence-details__media--left img {
+  position: absolute;
+  right: clamp(-40px, -2vw, -18px);
+  bottom: clamp(80px, 9vh, 130px);
+  display: block;
+  width: min(32vw, 520px);
+  height: clamp(330px, 43vh, 460px);
+  object-fit: cover;
+  object-position: center;
+}
+
+.residence-details__story {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(360px, 47vw) minmax(260px, 360px);
+  column-gap: clamp(48px, 7vw, 120px);
+  row-gap: clamp(32px, 6vh, 70px);
+  align-items: start;
+  width: min(1120px, 72vw);
+  margin: clamp(-370px, -28vh, -260px) 0 0 auto;
+}
+
+.residence-details__story img {
+  grid-column: 1 / -1;
+  justify-self: end;
+  display: block;
+  width: min(760px, 48vw);
+  margin-top: clamp(92px, 10vh, 120px);
+  aspect-ratio: 1.42;
+  object-fit: cover;
+  object-position: center;
+}
+
+.residence-details__story h2 {
+  grid-column: 1 / 2;
+  margin: 0;
+  font: 400 clamp(48px, 4.2vw, 80px)/.84 var(--era-display);
+  text-transform: uppercase;
+}
+
+.residence-details__story p {
+  grid-column: 2 / 3;
+  margin: clamp(24px, 4vh, 56px) 0 0;
+  font: 400 clamp(15px, 1.05vw, 18px)/1.32 var(--era-sans);
+}
+
+.residence-details__story a {
+  grid-column: 2 / 3;
+  display: grid;
+  width: clamp(190px, 14vw, 250px);
+  aspect-ratio: 1;
+  place-items: center;
+  justify-self: start;
+  margin-top: clamp(42px, 6vh, 84px);
+  border: 1px solid rgba(17,41,71,.14);
+  border-radius: 50%;
+  color: #112947;
+  font: 700 14px/1.28 var(--era-sans);
+  letter-spacing: .08em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.residence-details__story a::before,
+.residence-details__story a::after {
+  content: '';
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  border-top: 1px solid currentColor;
+  border-radius: 50%;
+}
+
+.residence-details__story a {
+  position: relative;
+}
+
+.residence-details__story a::before {
+  top: -1px;
+  left: 10px;
+  transform: rotate(-42deg);
+}
+
+.residence-details__story a::after {
+  right: 10px;
+  bottom: -1px;
+  transform: rotate(138deg);
+}
+
+.residence-details__upgrades {
+  position: relative;
+  z-index: 2;
+  width: min(420px, 72vw);
+  margin: clamp(80px, 12vh, 140px) 0 0 clamp(260px, 22vw, 420px);
+  font: 700 14px/1.28 var(--era-sans);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.residence-details__upgrades p {
+  margin: 0;
+}
+
+.residence-details__upgrades ul {
+  margin: 4px 0 0;
+  padding: 0 0 0 16px;
+}
+
+@media (max-width: 900px) {
+  .residence-details {
+    min-height: auto;
+    margin-top: -84svh;
+    padding: 38px 22px 80px;
+  }
+
+  .residence-details__media--left {
+    position: relative;
+    top: auto;
+    width: calc(100% + 44px);
+    height: auto;
+    min-height: 430px;
+    margin: -68px 0 24px -22px;
+  }
+
+  .residence-details__media--left img {
+    right: 22px;
+    bottom: 42px;
+    width: min(78vw, 480px);
+    height: 330px;
+  }
+
+  .residence-details__story {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    margin: -64px 0 0;
+  }
+
+  .residence-details__story img,
+  .residence-details__story h2,
+  .residence-details__story p,
+  .residence-details__story a {
+    grid-column: 1;
+  }
+
+  .residence-details__story img {
+    width: 100%;
+    margin-top: 64px;
+  }
+
+  .residence-details__story h2 {
+    font-size: clamp(42px, 13vw, 72px);
+  }
+
+  .residence-details__story p {
+    margin: 0;
+  }
+
+  .residence-details__story a {
+    justify-self: center;
+  }
+
+  .residence-details__upgrades {
+    width: 100%;
+    margin: 64px 0 0;
+  }
+}

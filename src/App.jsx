@@ -6,6 +6,7 @@ import Lenis from 'lenis';
 import './styles/App.css';
 import ClosingArc from './components/ClosingArc';
 import HighlightCard from './components/HighlightCard';
+import ResidenceDetails from './components/ResidenceDetails';
 import ApartmentsPage from './Pages/ApartmentsPage';
 import Works from './Pages/Works';
 
@@ -39,6 +40,7 @@ function App() {
   const horizontalSectionRef = useRef(null);
   const horizontalPinRef = useRef(null);
   const horizontalTrackRef = useRef(null);
+  const apartmentsHeroRef = useRef(null);
   const [scrollState, setScrollState] = useState({
     sceneOffset: 0,
     contentOffset: 0,
@@ -48,6 +50,13 @@ function App() {
     transitionOffset: 120,
     arcIsOpen: false,
     arcContentOpacity: 0,
+  });
+  const [closingArcState, setClosingArcState] = useState({
+    offset: 116,
+    contentOpacity: 0,
+    shadeOpacity: 0,
+    copyOpacity: 1,
+    lockOpacity: 0,
   });
   const [activeHighlight, setActiveHighlight] = useState(null);
 
@@ -81,16 +90,22 @@ function App() {
       const horizontal = horizontalSectionRef.current;
       const track = horizontalTrackRef.current;
       const apartmentsHero = document.querySelector('.apartments-hero');
+      const residenceDetails = document.querySelector('.residence-details');
       const scrollY = window.scrollY;
       const storyTop = story?.offsetTop ?? Number.POSITIVE_INFINITY;
       const horizontalTop = horizontal?.offsetTop ?? Number.POSITIVE_INFINITY;
       const apartmentsTop = apartmentsHero?.offsetTop ?? Number.POSITIVE_INFINITY;
+      const residenceDetailsTop = residenceDetails?.offsetTop ?? Number.POSITIVE_INFINITY;
 
       if (scrollY < storyTop - window.innerHeight * 0.32) {
         return { tone: 'dark', visible: false };
       }
 
       if (scrollY < horizontalTop - 2) {
+        return { tone: 'dark', visible: true };
+      }
+
+      if (scrollY >= residenceDetailsTop - 2) {
         return { tone: 'dark', visible: true };
       }
 
@@ -159,6 +174,61 @@ function App() {
       window.removeEventListener('scroll', updateProgress);
       window.removeEventListener('resize', updateProgress);
       window.removeEventListener('load', updateProgress);
+    };
+  }, [path]);
+
+  useEffect(() => {
+    if (path !== '/') return undefined;
+
+    let frame = 0;
+    const getProgress = (value) => Math.min(Math.max(value, 0), 1);
+    const easeOut = (value) => 1 - ((1 - value) ** 3);
+    const easeIn = (value) => value ** 3;
+
+    const updateClosingArc = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        const section = apartmentsHeroRef.current;
+        if (!section) return;
+
+        const travel = Math.max(section.offsetHeight - window.innerHeight, 1);
+        const rawProgress = (window.scrollY - section.offsetTop) / travel;
+        const progress = getProgress(rawProgress);
+        const arcProgress = getProgress(progress / 0.58);
+        const exitProgress = getProgress((progress - 0.46) / 0.28);
+        const easedProgress = easeOut(arcProgress);
+        const easedExit = easeIn(exitProgress);
+        const contentFade = 1 - getProgress(exitProgress / 0.34);
+        const nextState = {
+          offset: Math.round((112 - easedProgress * 87 - easedExit * 105) * 100) / 100,
+          contentOpacity: Math.round((getProgress((arcProgress - 0.08) / 0.24) * contentFade) * 100) / 100,
+          shadeOpacity: Math.round((arcProgress * 0.42 * (1 - exitProgress)) * 100) / 100,
+          copyOpacity: Math.round((1 - getProgress(arcProgress / 0.22)) * 100) / 100,
+          lockOpacity: rawProgress >= 0 ? 1 : 0,
+        };
+
+        setClosingArcState((current) => (
+          current.offset === nextState.offset
+          && current.contentOpacity === nextState.contentOpacity
+          && current.shadeOpacity === nextState.shadeOpacity
+          && current.copyOpacity === nextState.copyOpacity
+          && current.lockOpacity === nextState.lockOpacity
+            ? current
+            : nextState
+        ));
+      });
+    };
+
+    updateClosingArc();
+    window.addEventListener('scroll', updateClosingArc, { passive: true });
+    window.addEventListener('resize', updateClosingArc);
+    window.addEventListener('load', updateClosingArc);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', updateClosingArc);
+      window.removeEventListener('resize', updateClosingArc);
+      window.removeEventListener('load', updateClosingArc);
     };
   }, [path]);
 
@@ -437,8 +507,8 @@ function App() {
         scrollTrigger: {
           trigger: '.apartments-hero',
           start: 'top bottom',
-          end: 'bottom bottom',
-          scrub: 1.1,
+          end: 'top top',
+          scrub: true,
         },
       });
 
@@ -909,7 +979,18 @@ function App() {
           </div>
         </div>
       </section>
-      <section className="apartments-hero" aria-label="Apartments above the coast">
+      <section
+        className="apartments-hero"
+        ref={apartmentsHeroRef}
+        style={{
+          '--closing-arc-offset': `${closingArcState.offset}vh`,
+          '--closing-arc-content-opacity': closingArcState.contentOpacity,
+          '--closing-arc-shade-opacity': closingArcState.shadeOpacity,
+          '--apartments-copy-opacity': closingArcState.copyOpacity,
+          '--closing-arc-lock-opacity': closingArcState.lockOpacity,
+        }}
+        aria-label="Apartments above the coast"
+      >
         <div className="apartments-hero__sticky">
           <div className="apartments-hero__image-wrap">
             <img src="/Assets/apartments%20.png" alt="Apartments overlooking the coast and mountains" />
@@ -957,9 +1038,10 @@ function App() {
             <p>Residences with horizon</p>
             <h2>A full coastal view<br />opens below</h2>
           </div>
+          <ClosingArc />
         </div>
       </section>
-      <ClosingArc onNavigate={navigateTo} />
+      <ResidenceDetails onNavigate={navigateTo} />
     </main>
   );
 }

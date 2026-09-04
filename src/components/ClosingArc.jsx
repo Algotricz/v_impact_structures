@@ -1,34 +1,22 @@
 import './ClosingArc.css';
 
 /**
- * @param {{ onNavigate?: (event: import('react').MouseEvent<HTMLAnchorElement>, nextPath: string) => void }} props
- * Final homepage scene that closes the landing flow with an oversized arc and
- * direct apartment-selection call to action.
+ * Final homepage arc that repeats the scroll-driven space-to-live-in reveal
+ * over the apartments hero image.
  */
-function ClosingArc({ onNavigate }) {
+function ClosingArc() {
   return (
     <section className="closing-arc" aria-label="The space to live in">
-      <img
-        className="closing-arc__image"
-        src="/Assets/apartments%20.png"
-        alt="V Impact Structures apartments with planted terraces"
-      />
-      <div className="closing-arc__wash" aria-hidden="true" />
-
       <div className="closing-arc__stamp" aria-hidden="true">
         <span className="closing-arc__stamp-word closing-arc__stamp-word--top">Residence</span>
-        <span className="closing-arc__stamp-word closing-arc__stamp-word--left">V Impact</span>
+        <span className="closing-arc__stamp-word closing-arc__stamp-word--left">Era</span>
+        <span className="closing-arc__stamp-word closing-arc__stamp-word--right">Residence</span>
         <i><b /></i>
       </div>
 
-      <a className="closing-arc__cta" href="/apartments" onClick={(event) => onNavigate?.(event, '/apartments')}>
-        <span>Select<br />an apartment</span>
-        <b>Book a call<br />Contact</b>
-      </a>
-
       <div className="closing-arc__scroll" aria-hidden="true">
         <i />
-        <b>63</b>
+        <b>64</b>
         <span>Scroll</span>
         <i />
       </div>

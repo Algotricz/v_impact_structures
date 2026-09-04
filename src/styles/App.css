@@ -924,7 +924,7 @@ body::-webkit-scrollbar {
 .horizontal-panel {
   position: relative;
   overflow: hidden;
-  background: #f6f5ee;
+  background: var(--era-white);
   color: #112947;
 }
 
@@ -1134,7 +1134,7 @@ body::-webkit-scrollbar {
   z-index: 2;
   height: 100svh;
   overflow: hidden;
-  background: #f6f5ee;
+  background: var(--era-white);
 }
 
 .horizontal-story__sticky {
@@ -1468,11 +1468,11 @@ body::-webkit-scrollbar {
 
 .apartments-hero {
   position: relative;
-  z-index: 1;
-  height: 185svh;
+  z-index: 71;
+  height: 215svh;
   margin-top: -1px;
   overflow: hidden;
-  background: #f6f5ee;
+  background: var(--era-white);
   color: var(--era-white);
 }
 
@@ -1487,7 +1487,7 @@ body::-webkit-scrollbar {
 
 .apartments-hero__image-wrap {
   position: absolute;
-  inset: -7vh 0;
+  inset: -18vh 0;
   z-index: 1;
   transform-origin: center center;
 }
@@ -1498,7 +1498,7 @@ body::-webkit-scrollbar {
   height: 100%;
   object-fit: cover;
   object-position: center bottom;
-  transform: translateY(4vh);
+  transform: translateY(9vh);
 }
 
 .apartments-hero__top-blend {
@@ -1514,12 +1514,13 @@ body::-webkit-scrollbar {
 
 .apartments-hero__cloud-stack {
   position: absolute;
-  z-index: 4;
-  top: -18vh;
+  z-index: 6;
+  top: -10vh;
   right: 0;
   left: 0;
   height: 72vh;
   overflow: hidden;
+  opacity: 1;
   pointer-events: none;
   mix-blend-mode: normal;
 }
@@ -1534,19 +1535,19 @@ body::-webkit-scrollbar {
 .apartments-hero__cloud-layer--back {
   top: -150px;
   height: 600px;
-  opacity: .16;
+  opacity: .28;
 }
 
 .apartments-hero__cloud-layer--mid {
   top: -96px;
   height: 600px;
-  opacity: .68;
+  opacity: .86;
 }
 
 .apartments-hero__cloud-layer--front {
   top: 12px;
   height: 480px;
-  opacity: .88;
+  opacity: 1;
 }
 
 .apartments-hero__cloud-track {
@@ -1648,7 +1649,10 @@ body::-webkit-scrollbar {
 .residence-carousel__card,
 .apartments-hero__image-wrap,
 .apartments-hero__cloud-track,
-.apartments-hero__copy {
+.apartments-hero__copy,
+.closing-arc,
+.closing-arc__disc,
+.closing-arc__content {
   will-change: transform, opacity;
 }
 
@@ -2040,7 +2044,7 @@ body::-webkit-scrollbar {
   }
 
   .apartments-hero {
-    height: 165svh;
+    height: 205svh;
   }
 
   .apartments-hero__top-blend {
@@ -2048,7 +2052,7 @@ body::-webkit-scrollbar {
   }
 
   .apartments-hero__cloud-stack {
-    top: -10vh;
+    top: -6vh;
     height: 44vh;
   }
 
