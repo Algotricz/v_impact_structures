@@ -1,24 +1,218 @@
 @import url('https://use.typekit.net/pig8glj.css');
 
-.apartments-page { min-height: 100svh; padding: clamp(22px, 4vw, 64px); background: #f6f5ee; color: #102947; font-family: Arial, Helvetica, sans-serif; }
-.apartments-page__header { display: flex; align-items: flex-start; justify-content: space-between; }
-.apartments-page__brand { display: grid; color: inherit; font-size: 10px; font-weight: 700; letter-spacing: .2em; line-height: 1.35; text-decoration: none; text-transform: uppercase; }
-.apartments-page__contact { color: inherit; font-size: 10px; font-weight: 700; letter-spacing: .18em; text-decoration: none; text-transform: uppercase; }
-.apartments-page__intro { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 10px; max-width: 1720px; margin: clamp(50px, 10vh, 130px) auto clamp(28px, 5vh, 70px); border-bottom: 1px solid rgba(16, 41, 71, .22); padding-bottom: 20px; }
-.apartments-page__intro p, .apartments-page__intro span { margin: 0; font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
-.apartments-page__intro h1 { grid-column: 1 / -1; margin: 0; font: 400 clamp(64px, 10vw, 170px)/.76 'ambroise-francois-std', Georgia, serif; letter-spacing: -.065em; text-transform: uppercase; }
-.apartment-filters { display: grid; grid-template-columns: 1.2fr 1.2fr 1fr auto; align-items: center; gap: clamp(18px, 4vw, 80px); max-width: 1720px; margin: 0 auto clamp(20px, 3vw, 46px); border: 1px solid rgba(16, 41, 71, .14); padding: 19px clamp(18px, 2.5vw, 38px); }
-.apartment-filters label { display: flex; align-items: center; gap: 11px; min-width: 0; }.apartment-filters span, .apartment-filters select, .apartment-filters button { color: #102947; font: 700 10px/1 Arial, Helvetica, sans-serif; letter-spacing: .19em; text-transform: uppercase; }
-.apartment-filters select { min-width: 0; border: 0; outline: 0; background: transparent; cursor: pointer; font-weight: 700; }.apartment-filters button { border: 0; background: transparent; cursor: pointer; color: rgba(16, 41, 71, .42); padding: 0; }.apartment-filters button:hover, .apartment-filters button:focus-visible { color: #102947; }
-.apartments-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 2.4vw, 42px); max-width: 1720px; margin: 0 auto; }
-.apartments-grid__empty { grid-column: 1 / -1; margin: 60px 0; text-align: center; font-size: 13px; }
-.apartment-plan { display: grid; justify-items: center; border: 1px solid rgba(16, 41, 71, .13); padding: clamp(22px, 3vw, 44px); text-align: center; }
-.apartment-plan__eyebrow, .apartment-plan__details, .apartment-plan__size { margin: 0; font-size: 9px; font-weight: 700; letter-spacing: .16em; line-height: 1.4; text-transform: uppercase; }
-.apartment-plan h2 { margin: 8px 0 clamp(20px, 2vw, 32px); font: 400 clamp(28px, 3vw, 48px)/.9 'ambroise-francois-std', Georgia, serif; text-transform: uppercase; }
-.apartment-plan img { width: min(100%, 470px); aspect-ratio: 1.55; object-fit: contain; }
-.apartment-plan__details { margin-top: clamp(18px, 2vw, 28px); }.apartment-plan__size { margin-top: 5px; color: rgba(16, 41, 71, .65); }
-.apartment-plan a { margin-top: 22px; border-bottom: 1px solid currentColor; color: inherit; font-size: 10px; font-weight: 700; letter-spacing: .16em; padding-bottom: 4px; text-decoration: none; text-transform: uppercase; }
-.apartments-page a:hover, .apartments-page a:focus-visible { opacity: .62; }
+.apartments-page {
+  min-height: 100svh;
+  padding: clamp(22px, 4vw, 64px);
+  background: #f6f5ee;
+  color: #102947;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-@media (max-width: 950px) { .apartments-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 650px) { .apartments-page { padding: 22px 16px 44px; }.apartments-page__intro { margin-top: 70px; }.apartment-filters { grid-template-columns: 1fr; gap: 18px; padding: 20px; }.apartment-filters label { justify-content: space-between; }.apartments-grid { grid-template-columns: 1fr; }.apartment-plan { padding: 25px 18px; } }
+.apartments-page__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.apartments-page__brand {
+  display: grid;
+  color: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  line-height: 1.35;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.apartments-page__contact {
+  color: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.apartments-page__intro {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 10px;
+  max-width: 1720px;
+  margin: clamp(50px, 10vh, 130px) auto clamp(28px, 5vh, 70px);
+  border-bottom: 1px solid rgba(16, 41, 71, .22);
+  padding-bottom: 20px;
+}
+
+.apartments-page__intro p,
+.apartments-page__intro span {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.apartments-page__intro h1 {
+  grid-column: 1 / -1;
+  margin: 0;
+  font: 400 clamp(64px, 10vw, 170px)/.76 'ambroise-francois-std', Georgia, serif;
+  letter-spacing: -.065em;
+  text-transform: uppercase;
+}
+
+.apartment-filters {
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr 1fr auto;
+  align-items: center;
+  gap: clamp(18px, 4vw, 80px);
+  max-width: 1720px;
+  margin: 0 auto clamp(20px, 3vw, 46px);
+  border: 1px solid rgba(16, 41, 71, .14);
+  padding: 19px clamp(18px, 2.5vw, 38px);
+}
+
+.apartment-filters label {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+
+.apartment-filters span,
+.apartment-filters select,
+.apartment-filters button {
+  color: #102947;
+  font: 700 10px/1 Arial, Helvetica, sans-serif;
+  letter-spacing: .19em;
+  text-transform: uppercase;
+}
+
+.apartment-filters select {
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.apartment-filters button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: rgba(16, 41, 71, .42);
+  padding: 0;
+}
+
+.apartment-filters button:hover,
+.apartment-filters button:focus-visible {
+  color: #102947;
+}
+
+.apartments-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 2.4vw, 42px);
+  max-width: 1720px;
+  margin: 0 auto;
+}
+
+.apartments-grid__empty {
+  grid-column: 1 / -1;
+  margin: 60px 0;
+  text-align: center;
+  font-size: 13px;
+}
+
+.apartment-plan {
+  display: grid;
+  justify-items: center;
+  border: 1px solid rgba(16, 41, 71, .13);
+  padding: clamp(22px, 3vw, 44px);
+  text-align: center;
+}
+
+.apartment-plan__eyebrow,
+.apartment-plan__details,
+.apartment-plan__size {
+  margin: 0;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.apartment-plan h2 {
+  margin: 8px 0 clamp(20px, 2vw, 32px);
+  font: 400 clamp(28px, 3vw, 48px)/.9 'ambroise-francois-std', Georgia, serif;
+  text-transform: uppercase;
+}
+
+.apartment-plan img {
+  width: min(100%, 470px);
+  aspect-ratio: 1.55;
+  object-fit: contain;
+}
+
+.apartment-plan__details {
+  margin-top: clamp(18px, 2vw, 28px);
+}
+
+.apartment-plan__size {
+  margin-top: 5px;
+  color: rgba(16, 41, 71, .65);
+}
+
+.apartment-plan a {
+  margin-top: 22px;
+  border-bottom: 1px solid currentColor;
+  color: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  padding-bottom: 4px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.apartments-page a:hover,
+.apartments-page a:focus-visible {
+  opacity: .62;
+}
+
+@media (max-width: 950px) {
+  .apartments-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .apartments-page {
+    padding: 22px 16px 44px;
+  }
+
+  .apartments-page__intro {
+    margin-top: 70px;
+  }
+
+  .apartment-filters {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 20px;
+  }
+
+  .apartment-filters label {
+    justify-content: space-between;
+  }
+
+  .apartments-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .apartment-plan {
+    padding: 25px 18px;
+  }
+}
