@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CustomEase } from 'gsap/CustomEase';
 import Lenis from 'lenis';
 import './styles/App.css';
+import ClosingArc from './components/ClosingArc';
 import HighlightCard from './components/HighlightCard';
 import ApartmentsPage from './Pages/ApartmentsPage';
 import Works from './Pages/Works';
@@ -958,6 +959,7 @@ function App() {
           </div>
         </div>
       </section>
+      <ClosingArc onNavigate={navigateTo} />
     </main>
   );
 }

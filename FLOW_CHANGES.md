@@ -9,3 +9,4 @@
 - 2026-09-03: Updated the landing intro flow so the plum preloader fades directly into the hero screen.
 - 2026-09-03: Added a 3D residence carousel as the next horizontal panel after the coastal location map.
 - 2026-09-03: Added a vertical apartments hero after the 3D carousel so the page resumes normal downward scrolling after the horizontal sequence.
+- 2026-09-04: Added a final closing arc section after the apartments hero as the homepage end scene.
