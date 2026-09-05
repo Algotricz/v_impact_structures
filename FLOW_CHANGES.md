@@ -13,3 +13,8 @@
 - 2026-09-04: Changed the final arc into a scroll-driven overlay that rises from the apartments hero image.
 - 2026-09-04: Added a residence details section after the final arc reveal.
 - 2026-09-04: Overlapped the residence details section with the final arc handoff for a smoother upward scroll transition.
+- 2026-09-05: Routed apartment blueprint cards from `/apartments` into dedicated detail pages at `/apartments/{id}`.
+- 2026-09-05: Updated internal apartment navigation so selected blueprints and similar apartment links open the next page at the top viewport.
+- 2026-09-05: Extracted the sea-view image and contact band into a shared footer and added it after the home, apartments, apartment detail, and works pages.
+- 2026-09-05: Added a Kanyakumari site-image gallery before the shared footer on the homepage.
+- 2026-09-05: Added a homepage gallery CTA that opens the dedicated `/gallery` page.

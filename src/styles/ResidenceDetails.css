@@ -2,16 +2,28 @@
   position: relative;
   z-index: 72;
   min-height: 160svh;
-  overflow: visible;
+  overflow: clip;
   margin-top: -92svh;
   background: var(--era-white);
   color: #112947;
-  padding: clamp(24px, 4vh, 56px) clamp(24px, 5vw, 96px) clamp(80px, 12vh, 140px);
+}
+
+.residence-details__media-stage {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: 100svh;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.residence-details__media {
+  position: absolute;
+  overflow: hidden;
 }
 
 .residence-details__media--left {
-  position: absolute;
-  top: clamp(-24px, 0vh, 40px);
+  top: 26svh;
   left: 0;
   width: min(40vw, 760px);
   height: clamp(480px, 62vh, 620px);
@@ -29,33 +41,48 @@
   object-position: center;
 }
 
-.residence-details__story {
-  position: relative;
+.residence-details__media--right {
+  top: clamp(80px, 12vh, 130px);
+  right: clamp(24px, 5vw, 96px);
+  width: min(48vw, 820px);
+  aspect-ratio: 1.42;
+}
+
+.residence-details__media--right img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.residence-details__content-scroll {
+  position: sticky;
+  top: 0;
   z-index: 2;
+  display: grid;
+  align-content: end;
+  height: 100svh;
+  margin-top: -100svh;
+  padding: 0 clamp(24px, 5vw, 96px) clamp(54px, 7vh, 78px);
+  pointer-events: none;
+}
+
+.residence-details__story {
   display: grid;
   grid-template-columns: minmax(360px, 47vw) minmax(260px, 360px);
   column-gap: clamp(48px, 7vw, 120px);
   row-gap: clamp(32px, 6vh, 70px);
   align-items: start;
   width: min(1120px, 72vw);
-  margin: clamp(-370px, -28vh, -260px) 0 0 auto;
-}
-
-.residence-details__story img {
-  grid-column: 1 / -1;
-  justify-self: end;
-  display: block;
-  width: min(760px, 48vw);
-  margin-top: clamp(92px, 10vh, 120px);
-  aspect-ratio: 1.42;
-  object-fit: cover;
-  object-position: center;
+  margin: 0 0 0 auto;
+  pointer-events: auto;
 }
 
 .residence-details__story h2 {
   grid-column: 1 / 2;
   margin: 0;
-  font: 400 clamp(48px, 4.2vw, 80px)/.84 var(--era-display);
+  font: 400 clamp(44px, 3.9vw, 74px)/.84 var(--era-display);
   text-transform: uppercase;
 }
 
@@ -66,13 +93,14 @@
 }
 
 .residence-details__story a {
+  position: relative;
   grid-column: 2 / 3;
   display: grid;
   width: clamp(190px, 14vw, 250px);
   aspect-ratio: 1;
   place-items: center;
   justify-self: start;
-  margin-top: clamp(42px, 6vh, 84px);
+  margin-top: clamp(18px, 3vh, 36px);
   border: 1px solid rgba(17,41,71,.14);
   border-radius: 50%;
   color: #112947;
@@ -93,10 +121,6 @@
   border-radius: 50%;
 }
 
-.residence-details__story a {
-  position: relative;
-}
-
 .residence-details__story a::before {
   top: -1px;
   left: 10px;
@@ -110,13 +134,15 @@
 }
 
 .residence-details__upgrades {
-  position: relative;
-  z-index: 2;
+  position: absolute;
+  left: clamp(24px, 5vw, 96px);
+  bottom: clamp(48px, 7vh, 74px);
   width: min(420px, 72vw);
-  margin: clamp(80px, 12vh, 140px) 0 0 clamp(260px, 22vw, 420px);
+  margin: 0;
   font: 700 14px/1.28 var(--era-sans);
   letter-spacing: .08em;
   text-transform: uppercase;
+  pointer-events: auto;
 }
 
 .residence-details__upgrades p {
@@ -130,18 +156,18 @@
 
 @media (max-width: 900px) {
   .residence-details {
-    min-height: auto;
+    min-height: 150svh;
     margin-top: -84svh;
-    padding: 38px 22px 80px;
+  }
+
+  .residence-details__media-stage {
+    height: 100svh;
   }
 
   .residence-details__media--left {
-    position: relative;
-    top: auto;
-    width: calc(100% + 44px);
-    height: auto;
-    min-height: 430px;
-    margin: -68px 0 24px -22px;
+    top: 34svh;
+    width: 100%;
+    height: 46svh;
   }
 
   .residence-details__media--left img {
@@ -151,23 +177,29 @@
     height: 330px;
   }
 
-  .residence-details__story {
-    display: grid;
-    grid-template-columns: 1fr;
-    width: 100%;
-    margin: -64px 0 0;
+  .residence-details__media--right {
+    top: 8svh;
+    right: 16px;
+    left: 16px;
+    width: auto;
   }
 
-  .residence-details__story img,
+  .residence-details__content-scroll {
+    align-content: end;
+    height: 100svh;
+    padding: 0 22px 42px;
+  }
+
+  .residence-details__story {
+    grid-template-columns: 1fr;
+    width: 100%;
+    margin: 0;
+  }
+
   .residence-details__story h2,
   .residence-details__story p,
   .residence-details__story a {
     grid-column: 1;
-  }
-
-  .residence-details__story img {
-    width: 100%;
-    margin-top: 64px;
   }
 
   .residence-details__story h2 {
@@ -183,6 +215,9 @@
   }
 
   .residence-details__upgrades {
+    position: relative;
+    left: auto;
+    bottom: auto;
     width: 100%;
     margin: 64px 0 0;
   }

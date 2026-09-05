@@ -1,4 +1,4 @@
-import './ClosingArc.css';
+import '../styles/ClosingArc.css';
 
 /**
  * Final homepage arc that repeats the scroll-driven space-to-live-in reveal
@@ -6,11 +6,11 @@ import './ClosingArc.css';
  */
 function ClosingArc() {
   return (
-    <section className="closing-arc" aria-label="The space to live in">
+    <section className="closing-arc" aria-label="Tamil Nadu homes by V Impact Structures">
       <div className="closing-arc__stamp" aria-hidden="true">
-        <span className="closing-arc__stamp-word closing-arc__stamp-word--top">Residence</span>
-        <span className="closing-arc__stamp-word closing-arc__stamp-word--left">Era</span>
-        <span className="closing-arc__stamp-word closing-arc__stamp-word--right">Residence</span>
+        <span className="closing-arc__stamp-word closing-arc__stamp-word--top">Tamil Nadu</span>
+        <span className="closing-arc__stamp-word closing-arc__stamp-word--left">Kanyakumari</span>
+        <span className="closing-arc__stamp-word closing-arc__stamp-word--right">Homes</span>
         <i><b /></i>
       </div>
 
@@ -25,10 +25,10 @@ function ClosingArc() {
         <div className="closing-arc__content">
           <p>V Impact Structures</p>
           <h2>
-            <span>The</span>
-            <span>space</span>
+            <span>Coastal</span>
+            <span>homes</span>
             <span>to</span>
-            <em>live in</em>
+            <em>settle in</em>
           </h2>
         </div>
       </div>

@@ -5,28 +5,47 @@ import { CustomEase } from 'gsap/CustomEase';
 import Lenis from 'lenis';
 import './styles/App.css';
 import ClosingArc from './components/ClosingArc';
+import Footer from './components/Footer';
 import HighlightCard from './components/HighlightCard';
+import HomeImageGallery from './components/HomeImageGallery';
 import ResidenceDetails from './components/ResidenceDetails';
+import SiteCursor from './components/SiteCursor';
+import ApartmentDetailPage from './Pages/ApartmentDetailPage';
 import ApartmentsPage from './Pages/ApartmentsPage';
+import GalleryPage from './Pages/GalleryPage';
 import Works from './Pages/Works';
+import siteContent from './services/siteContent';
 
 const highlights = [
-  { title: 'Crafted to endure', description: 'Timeless stone surfaces and flowering terraces give every exterior a lasting sense of character.' },
-  { title: 'Light & flow', description: 'Openings, terraces and framed views bring daylight through every level and connect inside to out.' },
-  { title: 'Your private sanctuary', description: 'A quiet pool setting creates an inviting place to pause, meet and enjoy the outdoors.' },
+  { title: 'Built for the coast', description: 'V Impact Structures plans homes for Kanyakumari weather, with durable finishes, shaded edges and easy maintenance.' },
+  { title: 'Breeze & daylight', description: 'Openings, terraces and framed views are arranged for natural light, cross ventilation and everyday comfort.' },
+  { title: 'Family privacy', description: 'Quiet rooms, landscaped paths and private outdoor spaces create a calm address for Tamil Nadu family living.' },
 ];
 
 const residenceCarouselItems = [
-  { eyebrow: '01 / Arrival', title: 'Stone arrival', detail: 'A quiet threshold shaped with white volumes and planted edges.', image: '/Assets/hero.webp' },
-  { eyebrow: '02 / Balcony', title: 'Private terrace', detail: 'Outdoor rooms sized for shade, sea air and slow mornings.', image: '/Assets/balcony.png' },
-  { eyebrow: '03 / Pool', title: 'Courtyard water', detail: 'A calm shared pool wrapped by planting and clean architecture.', image: '/Assets/hero.webp' },
-  { eyebrow: '04 / Light', title: 'Coastal glass', detail: 'Large openings hold brightness without losing privacy.', image: '/Assets/balcony.png' },
-  { eyebrow: '05 / Garden', title: 'Layered green', detail: 'Landscaping softens every edge and filters each view.', image: '/Assets/hero.webp' },
-  { eyebrow: '06 / Living', title: 'Open plan', detail: 'Simple interiors connect naturally to the terrace.', image: '/Assets/balcony.png' },
+  { eyebrow: '01 / Arrival', title: 'Tamil Nadu calm', detail: 'A composed entrance shaped for privacy, planting and everyday family movement.', image: '/Assets/hero.webp' },
+  { eyebrow: '02 / Balcony', title: 'Sea-breeze terrace', detail: 'Outdoor rooms sized for shade, morning tea and relaxed evenings after work.', image: '/Assets/balcony.png' },
+  { eyebrow: '03 / Pool', title: 'Shared courtyard', detail: 'A pool court wrapped by greenery, seating edges and clean contemporary lines.', image: '/Assets/hero.webp' },
+  { eyebrow: '04 / Light', title: 'Filtered daylight', detail: 'Large openings bring brightness while keeping interiors calm and private.', image: '/Assets/balcony.png' },
+  { eyebrow: '05 / Garden', title: 'Tropical planting', detail: 'Landscape edges soften heat, frame views and suit the Kanyakumari climate.', image: '/Assets/hero.webp' },
+  { eyebrow: '06 / Living', title: 'Family-first plan', detail: 'Simple interiors connect naturally to terraces, balconies and daily routines.', image: '/Assets/balcony.png' },
 ];
 
 gsap.registerPlugin(ScrollTrigger, CustomEase);
 CustomEase.create('loaderEase', 'M0,0,C0,0,0.13,0.34,0.238,0.442,0.305,0.506,0.322,0.514,0.396,0.54,0.478,0.568,0.468,0.56,0.522,0.584,0.572,0.606,0.61,0.719,0.714,0.826,0.798,0.912,1,1,1,1');
+
+/** Resets native and smooth-scroll-backed pages to the first viewport after route changes. */
+function resetPageScroll() {
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  window.requestAnimationFrame(() => {
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    ScrollTrigger.refresh();
+  });
+}
 
 /** Full-bleed residence landing hero with a single-image parallax reveal. */
 function App() {
@@ -34,8 +53,6 @@ function App() {
   const [showPreloader, setShowPreloader] = useState(window.location.pathname === '/');
   const [fixedChrome, setFixedChrome] = useState({ tone: 'dark', visible: false });
   const preloaderRef = useRef(null);
-  const cursorRef = useRef(null);
-  const cursorDotRef = useRef(null);
   const scrollProgressRef = useRef(null);
   const horizontalSectionRef = useRef(null);
   const horizontalPinRef = useRef(null);
@@ -63,8 +80,8 @@ function App() {
   const navigateTo = (event, nextPath) => {
     event.preventDefault();
     window.history.pushState({}, '', nextPath);
-    window.scrollTo(0, 0);
     setPath(nextPath);
+    resetPageScroll();
   };
 
   useEffect(() => {
@@ -72,6 +89,18 @@ function App() {
     window.addEventListener('popstate', updatePath);
     return () => window.removeEventListener('popstate', updatePath);
   }, []);
+
+  useEffect(() => {
+    const previousRestoration = window.history.scrollRestoration;
+    window.history.scrollRestoration = 'manual';
+    return () => {
+      window.history.scrollRestoration = previousRestoration;
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    resetPageScroll();
+  }, [path]);
 
   useEffect(() => {
     if (path !== '/') setShowPreloader(false);
@@ -229,70 +258,6 @@ function App() {
       window.removeEventListener('scroll', updateClosingArc);
       window.removeEventListener('resize', updateClosingArc);
       window.removeEventListener('load', updateClosingArc);
-    };
-  }, [path]);
-
-  useLayoutEffect(() => {
-    if (path !== '/') return undefined;
-
-    const cursor = cursorRef.current;
-    const cursorDot = cursorDotRef.current;
-    const canUseCursor = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!cursor || !cursorDot || !canUseCursor || prefersReducedMotion) {
-      if (cursor) gsap.set(cursor, { display: 'none' });
-      return undefined;
-    }
-
-    document.body.classList.add('has-custom-cursor');
-
-    let isVisible = false;
-    const moveCursorX = gsap.quickTo(cursor, 'x', { duration: 0.42, ease: 'power4.out' });
-    const moveCursorY = gsap.quickTo(cursor, 'y', { duration: 0.42, ease: 'power4.out' });
-    const moveDotX = gsap.quickTo(cursorDot, 'x', { duration: 0.12, ease: 'power2.out' });
-    const moveDotY = gsap.quickTo(cursorDot, 'y', { duration: 0.12, ease: 'power2.out' });
-
-    gsap.set([cursor, cursorDot], { xPercent: -50, yPercent: -50, autoAlpha: 0 });
-
-    const showCursor = () => {
-      if (isVisible) return;
-      isVisible = true;
-      gsap.to([cursor, cursorDot], { autoAlpha: 1, duration: 0.28, ease: 'power2.out' });
-    };
-    const hideCursor = () => {
-      isVisible = false;
-      gsap.to([cursor, cursorDot], { autoAlpha: 0, duration: 0.28, ease: 'power2.out' });
-    };
-    const handlePointerMove = (event) => {
-      showCursor();
-      moveCursorX(event.clientX);
-      moveCursorY(event.clientY);
-      moveDotX(event.clientX);
-      moveDotY(event.clientY);
-    };
-    const handlePointerOver = (event) => {
-      if (!event.target.closest('a, button, .hero__marker, .residence-carousel__item')) return;
-      gsap.to(cursor, { scale: 1.9, duration: 0.38, ease: 'power4.out' });
-      gsap.to(cursorDot, { scale: 0.55, duration: 0.34, ease: 'power4.out' });
-    };
-    const handlePointerOut = (event) => {
-      const target = event.target.closest('a, button, .hero__marker, .residence-carousel__item');
-      if (!target || target.contains(event.relatedTarget)) return;
-      gsap.to(cursor, { scale: 1, duration: 0.38, ease: 'power4.out' });
-      gsap.to(cursorDot, { scale: 1, duration: 0.34, ease: 'power4.out' });
-    };
-
-    window.addEventListener('pointermove', handlePointerMove);
-    document.addEventListener('pointerover', handlePointerOver);
-    document.addEventListener('pointerout', handlePointerOut);
-    document.addEventListener('pointerleave', hideCursor);
-
-    return () => {
-      window.removeEventListener('pointermove', handlePointerMove);
-      document.removeEventListener('pointerover', handlePointerOver);
-      document.removeEventListener('pointerout', handlePointerOut);
-      document.removeEventListener('pointerleave', hideCursor);
-      document.body.classList.remove('has-custom-cursor');
     };
   }, [path]);
 
@@ -784,22 +749,59 @@ function App() {
     };
   }, [path]);
 
-  if (path === '/apartments') return <ApartmentsPage />;
-  if (path === '/wrks' || path === '/works') return <Works />;
+  if (path === '/apartments') {
+    return (
+      <>
+        <SiteCursor />
+        <ApartmentsPage onNavigate={navigateTo} />
+        <Footer onNavigate={navigateTo} />
+      </>
+    );
+  }
+  if (path.startsWith('/apartments/')) {
+    const apartmentId = decodeURIComponent(path.split('/')[2] || '');
+    return (
+      <>
+        <SiteCursor />
+        <ApartmentDetailPage key={apartmentId} apartmentId={apartmentId} onNavigate={navigateTo} />
+        <Footer onNavigate={navigateTo} />
+      </>
+    );
+  }
+  if (path === '/wrks' || path === '/works') {
+    return (
+      <>
+        <SiteCursor />
+        <Works />
+        <Footer onNavigate={navigateTo} />
+      </>
+    );
+  }
+  if (path === '/gallery') {
+    return (
+      <>
+        <SiteCursor />
+        <GalleryPage onNavigate={navigateTo} />
+        <Footer onNavigate={navigateTo} />
+      </>
+    );
+  }
 
   return (
-    <main className="residence-page" style={{
-      '--scene-offset': `${scrollState.sceneOffset}px`,
-      '--content-offset': `${scrollState.contentOffset}px`,
-      '--content-opacity': scrollState.contentOpacity,
-      '--transition-offset': `${scrollState.transitionOffset}vh`,
-      '--arc-content-opacity': scrollState.arcContentOpacity,
-      '--hero-scroll-color': scrollState.arcIsOpen ? '#112947' : 'rgba(255,255,255,.88)',
-    }}>
+    <>
+      <SiteCursor />
+      <main className="residence-page" style={{
+        '--scene-offset': `${scrollState.sceneOffset}px`,
+        '--content-offset': `${scrollState.contentOffset}px`,
+        '--content-opacity': scrollState.contentOpacity,
+        '--transition-offset': `${scrollState.transitionOffset}vh`,
+        '--arc-content-opacity': scrollState.arcContentOpacity,
+        '--hero-scroll-color': scrollState.arcIsOpen ? '#112947' : 'rgba(255,255,255,.88)',
+      }}>
       <div className={`fixed-chrome fixed-chrome--${fixedChrome.tone}${fixedChrome.visible ? ' is-visible' : ''}`}>
         <a className="fixed-chrome__cta" href="/apartments" onClick={(event) => navigateTo(event, '/apartments')}>
-          <span>Select<br />an apartment</span>
-          <b>Book a call<br />Contact</b>
+          <span>Select<br />a home</span>
+          <b>Call<br />{siteContent.phoneDisplay}</b>
         </a>
       </div>
       <div className="scroll-progress" ref={scrollProgressRef} style={{ '--progress': '0%' }} aria-hidden="true">
@@ -809,8 +811,6 @@ function App() {
           <span className="scroll-progress__thumb"><b className="scroll-progress__number">00</b></span>
         </div>
       </div>
-      <div className="custom-cursor" ref={cursorRef} aria-hidden="true" />
-      <div className="custom-cursor__dot" ref={cursorDotRef} aria-hidden="true" />
       {showPreloader && <div className="intro-preloader" ref={preloaderRef} aria-hidden="true">
         <div className="intro-preloader__inner">
           <div className="intro-preloader__top-symbol" data-part="ctn">
@@ -820,7 +820,7 @@ function App() {
             <p className="intro-preloader__side intro-preloader__side--left" data-part="h">V Impact</p>
             <div className="intro-preloader__brand">
               <h2 data-part="h">V Impact<br />Structures</h2>
-              <p data-part="a">Residence</p>
+            <p data-part="a">Kanyakumari</p>
             </div>
             <p className="intro-preloader__side intro-preloader__side--right" data-part="h">Kanyakumari</p>
           </div>
@@ -828,42 +828,42 @@ function App() {
             <div className="intro-preloader__line" data-part="line">
               <i className="intro-preloader__line-fill" />
             </div>
-            <p data-part="ctn">V Impact Structures<br />Built to stay.</p>
+            <p data-part="ctn">V Impact Structures<br />Built for Kanyakumari.</p>
           </div>
         </div>
       </div>}
-      <section className="hero" aria-label="Era Residence">
+      <section className="hero" aria-label="V Impact Structures residence">
         <div className="hero__sticky">
           <div className="hero__sky" />
           <header className="hero__header">
             <nav className="hero__nav" aria-label="Primary navigation">
               <a className="hero__apartment" href="/wrks" onClick={(event) => navigateTo(event, '/wrks')}>WRKS</a>
-              <a href="#top">Book a call</a>
-              <a href="#top">Contact</a>
+              <a href={siteContent.phoneHref}>Book a call</a>
+              <a href={siteContent.phoneHref}>Contact</a>
             </nav>
           </header>
           <aside className="hero__brief" aria-label="Residence overview">
-            <p>V Impact Structures / Coastal residences</p>
-            <h2>Private homes shaped by light, stone and generous outdoor living.</h2>
+            <p>{siteContent.clientName} / {siteContent.coastalLabel}</p>
+            <h2>Private homes in Kanyakumari shaped for sea breeze, shade and family living.</h2>
             <dl>
               <div><dt>Residences</dt><dd>03</dd></div>
-              <div><dt>Typologies</dt><dd>Garden to penthouse</dd></div>
+              <div><dt>Home types</dt><dd>Garden to penthouse</dd></div>
             </dl>
           </aside>
           <aside className="hero__booking-note" aria-label="Booking information">
             <span>Now scheduling private walkthroughs</span>
-            <p>Floor plans, availability and consultation times are open for the first collection.</p>
+            <p>{siteContent.enquiryLine}</p>
           </aside>
           <div className="hero__content" id="top">
             <h1 className="hero__title"><span>V</span><span>Impact</span></h1>
             <p className="hero__script">Structures</p>
-            <div className="hero__tagline" aria-label="A place to return to"><span>A place</span><span>to return to</span></div>
-            <p className="hero__switch"><span>By day</span><i /><span>By night</span></p>
+            <div className="hero__tagline" aria-label="A home shaped by the coast"><span>Coastal</span><span>family living</span></div>
+            <p className="hero__switch"><span>Morning light</span><i /><span>Evening breeze</span></p>
           </div>
           <div className="hero__fact-strip" aria-label="Property facts">
-            <p><span>Landscape</span><b>Pool courtyard and planted terraces</b></p>
-            <p><span>Materiality</span><b>White volumes, stone walls and shaded glass</b></p>
-            <p><span>Plan</span><b>Private rooms, open living</b></p>
+            <p><span>Landscape</span><b>Pool court, tropical planting and shaded terraces</b></p>
+            <p><span>Climate</span><b>Cross ventilation, filtered light and coastal-ready finishes</b></p>
+            <p><span>Plan</span><b>Private bedrooms, open living and family outdoor space</b></p>
           </div>
           {!scrollState.arcIsOpen && <>
             <div className={`hero__markers${scrollState.showMarkers ? ' is-visible' : ''}`} aria-label="Property highlights">
@@ -882,23 +882,23 @@ function App() {
             </div>
             <HighlightCard highlight={activeHighlight} />
             <a className={`hero__apartments-cta${scrollState.showApartmentsCta ? ' is-visible' : ''}`} href="/apartments">
-              <span>View available<br />apartments</span>
+              <span>View available<br />homes</span>
             </a>
           </>}
           <div className="hero__transition-disc" aria-hidden="true" />
           <div className="arc-content" aria-hidden={!scrollState.arcIsOpen}>
             <span className="arc-content__number">12</span>
-            <div className="arc-content__words" aria-label="Three reasons to choose ERA">
+            <div className="arc-content__words" aria-label="Three reasons to choose V Impact Structures">
               <span className="arc-content__word arc-content__word--one">Three</span>
               <span className="arc-content__word arc-content__word--two">Reasons</span>
               <span className="arc-content__word arc-content__word--three">To</span>
               <span className="arc-content__word arc-content__word--four">Choose</span>
-              <span className="arc-content__word arc-content__word--five">Era</span>
+              <span className="arc-content__word arc-content__word--five">V Impact</span>
             </div>
-            <div className="arc-content__brand" aria-label="Costa del Sol">
-              <span>Costa</span>
+            <div className="arc-content__brand" aria-label="Kanyakumari India">
+              <span>Kanyakumari</span>
               <i aria-hidden="true"><b /></i>
-              <span>Del Sol</span>
+              <span>India</span>
             </div>
             <i className="arc-content__line" />
           </div>
@@ -907,44 +907,44 @@ function App() {
       </section>
       <section className="story" id="story">
         <p className="story__kicker">V Impact Structures</p>
-        <h2>Built to stay</h2>
+        <h2>Rooted in place</h2>
         <div className="story__image" role="img" aria-label="V Impact Structures residence detail" />
         <div className="story__pager" aria-label="Residence image pagination"><button type="button" aria-label="Previous image">‹</button><b>02</b><i /><b>03</b><button type="button" aria-label="Next image">›</button></div>
-        <p className="story__copy">Thoughtful architecture, natural materials and lush landscaping create a residence designed for lasting everyday life.</p>
-        <p className="story__statement">Designed as a community,<br />not a complex</p>
+        <p className="story__copy">Thoughtful planning, durable materials and lush planting create Kanyakumari homes ready for sun, rain, salt air and everyday family life.</p>
+        <p className="story__statement">Designed for Tamil Nadu living,<br />not just floor plans</p>
       </section>
       <section className="horizontal-story" ref={horizontalSectionRef} aria-label="Coastal location story">
         <div className="horizontal-story__sticky" ref={horizontalPinRef}>
           <div className="horizontal-story__track" ref={horizontalTrackRef}>
             <section className="concept-section horizontal-panel horizontal-panel--concept" aria-label="The concept">
               <p className="concept-section__kicker">The concept</p>
-              <h2>V Impact Structures is a boutique gated community of only 03 residences, designed around privacy, wellbeing and timeless coastal living</h2>
-              <p>Inspired by the atmosphere of the coast, the project combines contemporary architecture with warm materials, natural landscaping and carefully curated spaces.</p>
+              <h2>V Impact Structures creates boutique residences in Kanyakumari, designed around privacy, ventilation and timeless coastal living</h2>
+              <p>Inspired by Tamil Nadu&apos;s southern coastline, the project combines contemporary architecture with shaded terraces, practical detailing and natural landscaping.</p>
               <i className="concept-section__mark" aria-hidden="true"><b /></i>
             </section>
-            <section className="horizontal-panel horizontal-panel--mile" aria-label="New golden mile">
+            <section className="horizontal-panel horizontal-panel--mile" aria-label="Kanyakumari coastal living">
               <div className="horizontal-panel__title">
                 <h2>
-                  <span className="horizontal-panel__word horizontal-panel__word--new">New</span>
-                  <span className="horizontal-panel__word horizontal-panel__word--golden">Golden</span>
-                  <span className="horizontal-panel__word horizontal-panel__word--mile">Mile</span>
+                  <span className="horizontal-panel__word horizontal-panel__word--new">Tamil</span>
+                  <span className="horizontal-panel__word horizontal-panel__word--golden">Coastal</span>
+                  <span className="horizontal-panel__word horizontal-panel__word--mile">Homes</span>
                 </h2>
-                <p>Spain</p>
+                <p>Tamil Nadu</p>
               </div>
               <img src="/Assets/balcony.png" alt="Private balcony with shaded seating, greenery and sea view" />
             </section>
-            <section className="horizontal-panel horizontal-panel--coast" aria-label="The coast you wanted">
+            <section className="horizontal-panel horizontal-panel--coast" aria-label="The Kanyakumari coast">
               <div className="coast-copy">
-                <h2>The coast you want<br /><span>yours</span><br />this year</h2>
+                <h2>Kanyakumari light<br /><span>held</span><br />at home</h2>
               </div>
-              <div className="coast-map" aria-label="Nearby coastal destinations">
-                <div className="coast-map__point coast-map__point--one"><b>Gibraltar</b><span>50 min</span><i /></div>
-                <div className="coast-map__point coast-map__point--two"><b>Estepona</b><span>10 min</span><i /></div>
-                <div className="coast-map__point coast-map__point--three"><b>Kempinski</b><span>5 min</span><i /></div>
+              <div className="coast-map" aria-label="Nearby Kanyakumari destinations">
+                <div className="coast-map__point coast-map__point--one"><b>Kanyakumari Beach</b><span>nearby</span><i /></div>
+                <div className="coast-map__point coast-map__point--two"><b>Nagercoil</b><span>city access</span><i /></div>
+                <div className="coast-map__point coast-map__point--three"><b>Suchindram</b><span>easy drive</span><i /></div>
                 <i className="coast-map__mark" aria-hidden="true"><b /></i>
-                <div className="coast-map__point coast-map__point--four"><b>Puerto Banus</b><span>20 min</span><i /></div>
-                <div className="coast-map__point coast-map__point--five"><b>Marbella</b><span>25 min</span><i /></div>
-                <div className="coast-map__point coast-map__point--six"><b>Malaga Airport</b><span>45 min</span><i /></div>
+                <div className="coast-map__point coast-map__point--four"><b>Vivekananda Rock</b><span>landmark</span><i /></div>
+                <div className="coast-map__point coast-map__point--five"><b>Sunset Point</b><span>coastal view</span><i /></div>
+                <div className="coast-map__point coast-map__point--six"><b>Railway Station</b><span>connected</span><i /></div>
                 <svg viewBox="0 0 1180 170" role="presentation" aria-hidden="true">
                   <path d="M20 128 C150 108 245 79 318 62 C358 53 315 48 306 39 C347 43 441 38 492 43 C532 47 466 67 500 70 C606 62 641 36 660 55 C676 71 604 83 662 79 C790 70 891 76 968 63 C1026 53 994 29 1050 45 C1098 58 1135 60 1160 54" />
                 </svg>
@@ -952,9 +952,9 @@ function App() {
             </section>
             <section className="horizontal-panel horizontal-panel--carousel" aria-label="Residence details carousel">
               <div className="residence-carousel__copy">
-                <p>Details in motion</p>
-                <h2>Choose the residence<br />from every angle</h2>
-                <a href="/apartments">View available apartments</a>
+                <p>Plans in motion</p>
+                <h2>Compare homes<br />for your family</h2>
+                <a href="/apartments" onClick={(event) => navigateTo(event, '/apartments')}>View available homes</a>
               </div>
               <div className="residence-carousel__stage" aria-label="Rotating residence highlights">
                 <div className="residence-carousel__ring">
@@ -989,7 +989,7 @@ function App() {
           '--apartments-copy-opacity': closingArcState.copyOpacity,
           '--closing-arc-lock-opacity': closingArcState.lockOpacity,
         }}
-        aria-label="Apartments above the coast"
+        aria-label="Apartments shaped for Kanyakumari living"
       >
         <div className="apartments-hero__sticky">
           <div className="apartments-hero__image-wrap">
@@ -1035,14 +1035,17 @@ function App() {
             </div>
           </div>
           <div className="apartments-hero__copy">
-            <p>Residences with horizon</p>
-            <h2>A full coastal view<br />opens below</h2>
+            <p>{siteContent.city} residences</p>
+            <h2>Sea breeze, shaded terraces<br />and calm daily living</h2>
           </div>
           <ClosingArc />
         </div>
       </section>
-      <ResidenceDetails onNavigate={navigateTo} />
-    </main>
+        <ResidenceDetails onNavigate={navigateTo} />
+      </main>
+      <HomeImageGallery onNavigate={navigateTo} />
+      <Footer onNavigate={navigateTo} />
+    </>
   );
 }
 

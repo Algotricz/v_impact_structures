@@ -1,0 +1,96 @@
+.era-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  pointer-events: none;
+  perspective: 1200px;
+}
+
+.era-modal__overlay {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(8, 15, 28, 0);
+  cursor: pointer;
+  transition: background-color var(--era-dur-m, .8s) var(--era-ease-out, cubic-bezier(.25,1,.5,1));
+}
+
+.era-modal__panel {
+  position: relative;
+  z-index: 1;
+  width: min(860px, calc(100vw - 32px));
+  max-height: calc(100svh - 48px);
+  overflow: auto;
+  border-radius: 8px;
+  background: var(--era-bg, #f3f3ec);
+  color: var(--era-ink, #17233b);
+  opacity: 0;
+  padding: clamp(22px, 4vw, 48px);
+  transform: translateY(-8%) scale(.92) rotateX(-8deg);
+  transform-origin: center top;
+  transition:
+    opacity .68s var(--era-ease-out, cubic-bezier(.25,1,.5,1)),
+    transform .76s var(--era-ease-out, cubic-bezier(.25,1,.5,1));
+}
+
+.era-modal.is-open {
+  pointer-events: auto;
+}
+
+.era-modal.is-open .era-modal__overlay {
+  background: rgba(8, 15, 28, .58);
+}
+
+.era-modal.is-open .era-modal__panel {
+  opacity: 1;
+  transform: translateY(0) scale(1) rotateX(0);
+}
+
+.era-modal__close {
+  position: sticky;
+  top: 0;
+  left: 100%;
+  z-index: 2;
+  display: grid;
+  width: 42px;
+  aspect-ratio: 1;
+  margin: 0 0 14px auto;
+  place-items: center;
+  border: 1px solid rgba(23, 35, 59, .22);
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: 400 24px/1 Arial, Helvetica, sans-serif;
+  transition: background-color var(--era-dur-s, .4s) var(--era-ease-out, cubic-bezier(.25,1,.5,1)), color var(--era-dur-s, .4s) var(--era-ease-out, cubic-bezier(.25,1,.5,1));
+}
+
+.era-modal__close:hover,
+.era-modal__close:focus-visible {
+  background: currentColor;
+  color: var(--era-bg, #f3f3ec);
+  outline: none;
+}
+
+@media (max-width: 700px) {
+  .era-modal {
+    padding: 16px;
+  }
+
+  .era-modal__panel {
+    width: 100%;
+    max-height: calc(100svh - 32px);
+    padding: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .era-modal__overlay,
+  .era-modal__panel,
+  .era-modal__close {
+    transition: none;
+  }
+}

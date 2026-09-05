@@ -83,6 +83,10 @@ function Works() {
   const handleWheel = (event) => {
     event.preventDefault();
     if (Math.abs(event.deltaY) < 18) return;
+    if (activeIndex === worksProjects.length - 1 && event.deltaY > 0) {
+      window.scrollBy({ top: window.innerHeight, left: 0, behavior: 'smooth' });
+      return;
+    }
     changeProjectFromGesture(event.deltaY > 0 ? 1 : -1);
   };
 
